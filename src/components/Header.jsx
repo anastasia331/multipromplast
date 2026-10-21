@@ -37,7 +37,7 @@ export default function Header() {
     return (
         <header
             className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-white/70 backdrop-blur-md shadow-sm border-b border-gray-100/50'
+                    ? 'bg-white/35 backdrop-blur-md shadow-sm border-b border-gray-100/50'
                     : 'bg-white border-b border-gray-100'
                 }`}
         >
@@ -61,7 +61,8 @@ export default function Header() {
                             key={link.path}
                             to={link.path}
                             className={({ isActive }) =>
-                                `text-sm font-medium whitespace-nowrap transition-colors duration-200 relative py-1 group ${isActive ? 'text-black font-semibold' : 'text-gray-700 hover:text-black'
+                                `text-sm font-medium 
+                            whitespace-nowrap transition-colors duration-200 relative py-1 group ${isActive ? 'text-black font-semibold' : 'text-black-700 hover:text-black'
                                 }`
                             }
                         >
