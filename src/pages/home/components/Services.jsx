@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 import {
     LuPencil,
     LuClock,
@@ -188,10 +189,13 @@ export default function Services() {
                 </div>
 
                 <div className="mt-14 text-center">
-                    <button className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-medium text-base px-8 py-4 rounded-xl shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group cursor-pointer">
+                    <Link
+                        to="/calculate"
+                        className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white font-medium text-base px-8 py-4 rounded-xl shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 group cursor-pointer"
+                    >
                         <span>Рассчитать стоимость по вашему чертежу</span>
                         <LuArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-                    </button>
+                    </Link>
                 </div>
 
             </div>
