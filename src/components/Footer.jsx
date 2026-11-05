@@ -43,8 +43,8 @@ export default function Footer() {
 
                     {/* 3. Колонка справа (пустая для баланса сетки на ПК, либо можно добавить контакты) */}
                     <div className="hidden md:flex flex-col items-end text-right text-sm text-gray-500">
-                        <p>Минск, Беларусь</p>
-                        <p className="mt-1">info@multipromplast.by</p>
+                        <p>Липецк, Россия</p>
+                        <p className="mt-1">multipromplast@mail.ru</p>
                     </div>
 
                 </div>

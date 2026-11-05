@@ -11,7 +11,8 @@ export default function LocationBlock() {
                         <div className="space-y-4 text-white/90">
                             <div>
                                 <p className="text-xs text-white/50 uppercase tracking-wider font-semibold">Адрес</p>
-                                <p className="text-lg font-medium mt-1">г. Минск, ул. Примерная, д. 123</p>
+                                {/* Исправили город в тексте на Липецк */}
+                                <p className="text-lg font-medium mt-1">г. Липецк, ул. Ферросплавная, 18</p>
                             </div>
 
                             <div>
@@ -21,8 +22,8 @@ export default function LocationBlock() {
 
                             <div>
                                 <p className="text-xs text-white/50 uppercase tracking-wider font-semibold">Телефон / Email</p>
-                                <p className="text-base mt-1">+375 (29) 000-00-00</p>
-                                <p className="text-base">info@example.by</p>
+                                <p className="text-base mt-1">+7 (920) 545-56-55</p>
+                                <p className="text-base">multipromplast@mail.ru</p>
                             </div>
                         </div>
                     </div>
@@ -38,7 +39,11 @@ export default function LocationBlock() {
                 <div className="w-full md:w-2/3 min-h-[350px] rounded-2xl overflow-hidden border border-white/20 shadow-2xl relative">
                     <iframe
                         title="Карта производства"
-                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A...&amp;source=constructor" // Твоя ссылка на карту
+                        /* 
+                          Используем правильный параметр text и координаты центра Липецка + точку, 
+                          либо чистый поисковый запрос сшитый через урл-энкодинг.
+                        */
+                        src="https://yandex.ru/map-widget/v1/?text=Липецк%2C%20улица%20Ферросплавная%2C%2018&z=16"
                         width="100%"
                         height="100%"
                         className="absolute inset-0 w-full h-full border-0 filter grayscale hover:grayscale-0 transition-all duration-500"

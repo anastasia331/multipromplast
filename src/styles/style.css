@@ -1,1 +1,16 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+/* Скрываем полосу прокрутки для Firefox */
+html {
+    scrollbar-width: none;
+}
+
+/* Скрываем полосу прокрутки для Internet Explorer и舊 Edge */
+body {
+    -ms-overflow-style: none;
+}
+
+/* Скрываем полосу прокрутки для Chrome, Safari и Opera */
+html::-webkit-scrollbar {
+    display: none;
+}

@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 
 export default function CalculateByDrawing() {
     const [fileName, setFileName] = useState('');
+    const [agreed, setAgreed] = useState(false); // Состояние для чекбокса согласия
 
     // Обработка выбора файла для отображения его имени
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setFileName(e.target.files[0].name);
         }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!agreed) return; // Защита на случай отправки без галочки
+        // Здесь ваша логика отправки формы
     };
 
     return (
@@ -30,7 +37,7 @@ export default function CalculateByDrawing() {
             {/* Карточка формы с эффектом стекла */}
             <div className="relative z-10 w-full max-w-2xl p-6 sm:p-10 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300">
 
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-6" onSubmit={handleSubmit}>
 
                     {/* Блок загрузки файла (Drag & Drop зона) */}
                     <div className="flex flex-col gap-2">
@@ -72,8 +79,8 @@ export default function CalculateByDrawing() {
 
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-gray-200">Материал (если известен)</label>
-                            <select className="w-full px-4 py-3 rounded-xl bg-gray-900 border border-white/15 text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all">
-                                <option value="" disabled selected>Выберите пластик</option>
+                            <select defaultValue="" className="w-full px-4 py-3 rounded-xl bg-gray-900 border border-white/15 text-white outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all">
+                                <option value="" disabled>Выберите пластик</option>
                                 <option value="pnd">ПНД (полиэтилен низкого давления)</option>
                                 <option value="pvd">ПВД (полиэтилен высокого давления)</option>
                                 <option value="pp">Полипропилен (PP)</option>
@@ -98,7 +105,7 @@ export default function CalculateByDrawing() {
                             <label className="text-sm font-medium text-gray-200">Номер телефона <span className="text-blue-400">*</span></label>
                             <input
                                 type="tel"
-                                placeholder="+375 (__) ___-__-__"
+                                placeholder="+7 (___) ___-__-__"
                                 className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-white placeholder-gray-500 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all"
                             />
                         </div>
@@ -108,22 +115,37 @@ export default function CalculateByDrawing() {
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-medium text-gray-200">Комментарий к заказу</label>
                         <textarea
-                            rows="3"
+                            rows={3}
                             placeholder="Укажите габариты, требования к нагрузке (если это поддон) или другие пожелания..."
                             className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/15 text-white placeholder-gray-500 outline-none resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition-all"
                         />
+                    </div>
+
+                    {/* Чекбокс согласия на обработку персональных данных (ФЗ-152) */}
+                    <div className="flex items-start gap-3 pt-1">
+                        <input
+                            type="checkbox"
+                            id="consent-drawing"
+                            checked={agreed}
+                            onChange={(e) => setAgreed(e.target.checked)}
+                            className="mt-1 w-4 h-4 rounded border-white/20 bg-black/40 text-blue-600 focus:ring-blue-500/30 cursor-pointer accent-blue-600"
+                        />
+                        <label htmlFor="consent-drawing" className="text-xs text-gray-400 cursor-pointer leading-relaxed">
+                            Я даю согласие на <a href="/privacy" target="_blank" className="underline text-blue-400 hover:text-blue-300">обработку персональных данных</a> и соглашаюсь с политикой конфиденциальности. <span className="text-blue-400">*</span>
+                        </label>
                     </div>
 
                     {/* Кнопка отправки и призыв */}
                     <div className="pt-2">
                         <button
                             type="submit"
-                            className="w-full py-4 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer"
+                            disabled={!agreed}
+                            className="w-full py-4 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                         >
                             Отправить чертеж на расчет
                         </button>
-                        <p className="text-center text-xs text-gray-400 mt-3">
-                            Нажимая кнопку, вы соглашаетесь на обработку персональных данных и сохранение конфиденциальности.
+                        <p className="text-center text-xs text-gray-500 mt-3">
+                            Защищено в соответствии с требованиями законодательства РФ.
                         </p>
                     </div>
 
