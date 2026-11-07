@@ -9,14 +9,10 @@ import MaterialsBlock from './components/Material';
 export const Home = () => {
     return (
         <main>
-            {/* 1. Первый экран, который ты уже сверстала */}
             <Hero />
-            <MaterialsBlock/>
-            {/* 2. Блок "Наши преимущества" со скриншота */}
             <Advantages />
+            <MaterialsBlock/>
             <Ticker/>
-
-            {/* 3. Блок услуг и производства */}
             <Services />
         </main>
     );

@@ -1,9 +1,9 @@
-import ServicesHero from "./componets/ServcesHero";
 
-export const ServicesHome = () => {
-    return (
-        <main>
-          <ServicesHero/>
-        </main>
-    );
-};
+// import Services from "../home/components/Services";
+// export const ServicesHome = () => {
+//     return (
+//         <main>
+//           <ServicesHero/>
+//         </main>
+//     );
+// };
