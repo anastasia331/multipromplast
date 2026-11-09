@@ -1,32 +1,32 @@
-import { motion } from 'framer-motion';
-import auto from '../../../assets/auto.jpg';
-import korpus from '../../../assets/korpus.jpg';
-import strou from '../../../assets/strou.jpg';
-import emcost from '../../../assets/emcost.jpg';
-import fon7 from '../../../assets/fon7.jpg';
+// import { motion } from 'framer-motion';
+// import auto from '../../../assets/auto.jpg';
+// import korpus from '../../../assets/korpus.jpg';
+// import strou from '../../../assets/strou.jpg';
+// import emcost from '../../../assets/emcost.jpg';
+// import fon7 from '../../../assets/fon7.jpg';
 
 export default function ServicesHero() {
     const items = [
         {
-            img: auto,
+            // img: auto,
             title: "Автомобильные Компоненты",
             desc: "Детали интерьера и экстерьера авто, баки, клипсы и защитные элементы.",
             reverse: false
         },
         {
-            img: emcost,
+            // img: emcost,
             title: "Промышленная тара и емкости",
             desc: "Прочные емкости, крупногабаритные ящики, складские лотки, пластиковые паллеты и поддоны для хранения и транспортировки продукции.",
             reverse: true
         },
         {
-            img: korpus,
+            // img: korpus,
             title: "Корпуса и детали электроники",
             desc: "Защитные корпуса для датчиков, контроллеров, пультов управления и других приборов.",
             reverse: false
         },
         {
-            img: strou,
+            // img: strou,
             title: "Строительно-отделочные материалы",
             desc: "Пластиковые профили, элементы крепежа, защитные накладки и аксессуары для строительства.",
             reverse: true
