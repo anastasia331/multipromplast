@@ -216,7 +216,7 @@ export default function Advantages() {
                                             />
                                         </div>
 
-                                        {/* Белоснежная чистая карточка: padding 28px 26px, min-h 185px, rounded 18px */}
+                                       
                                         <div className="w-full bg-[#FFFFFF] px-[26px] py-[28px] min-h-[185px] rounded-[18px] border border-slate-200/60 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)] hover:border-blue-200 transition-all duration-300 flex flex-col justify-start text-left">
                                             <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-[#2563EB] transition-colors leading-snug">
                                                 {item.title}

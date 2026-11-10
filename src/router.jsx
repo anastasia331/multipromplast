@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
             { path: '/calculate', element: <CalculateByDrawing/> },
             { path: '/about', element: <About/> },
         
-            // добавь дочерние маршруты для about, products, contacts
+          
         ],
     },
 ]);

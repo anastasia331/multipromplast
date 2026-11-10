@@ -14,11 +14,11 @@ export default function CalculateByDrawing() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!agreed) return; // Защита на случай отправки без галочки
-        // Здесь ваша логика отправки формы
+        
     };
 
     return (
-        <section className="relative min-h-screen w-full flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-950 text-white overflow-hidden">
+        <section id="calculate-by-drawing-section" className="relative min-h-screen w-full flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-950 text-white overflow-hidden">
 
             {/* Фоновый технологичный элемент / градиентное свечение */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none z-0" />
