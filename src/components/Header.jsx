@@ -6,33 +6,47 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // 👉 Импорт твоего логотипа (без белого фона)
 import logo from '../assets/logo.png';
-
+const navLinks = [
+    { title: 'Главная', path: '/' },
+    { title: 'О компании', path: '/about' },
+    { title: 'Товары и услуги', path: '/products' },
+    { title: 'Контакты', path: '/contacts' },
+];
 export default function Header() {
+    console.log('HEADER RENDER');
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
     // Эффект скролла для изменения прозрачности шапки
+
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 20) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
+            const scrolled = window.scrollY > 20;
+
+            setIsScrolled(prev => {
+                if (prev === scrolled) {
+                    return prev;
+                }
+
+                return scrolled;
+            });
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, {
+            passive: true
+        });
+
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
+
 
     const closeMenu = () => setIsOpen(false);
 
-    const navLinks = [
-        { title: 'Главная', path: '/' },
-        { title: 'О компании', path: '/about' },
-        { title: 'Товары и услуги', path: '/products' },
-        { title: 'Контакты', path: '/contacts' },
-    ];
+  
 
     return (
         <header
