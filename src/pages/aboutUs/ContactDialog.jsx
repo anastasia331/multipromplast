@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef, memo } from "react";
-import FormUnavailableModal from '../../components/FormUnavailableModal';
+import FormUnavailableModal from '../../components/FormStatusModal';
 
 export const ContactDialog = memo(({ open, onClose }) => {
     const dialogRef = useRef(null);
@@ -24,7 +24,7 @@ export const ContactDialog = memo(({ open, onClose }) => {
             if (event.key !== "Tab") return;
 
             const focusable = dialogRef.current?.querySelectorAll(
-                'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])' 
+                'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
             );
             if (!focusable?.length) return;
 

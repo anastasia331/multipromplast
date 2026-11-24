@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { IMAGE_ASSETS } from "./aboutUs/AboutDataUs";
 import { ContactDialog } from "../pages/aboutUs/ContactDialog";
 
-/* ------------------------------------------------------------------ */
-/*  Токены: navy #0b1b33 · ink #071426 · orange #c2410c · slate       */
-/* ------------------------------------------------------------------ */
 
 const CONTAINER = "mx-auto w-full max-w-6xl px-5 sm:px-8";
 const SECTION_Y = "py-14 sm:py-18 lg:py-24";
@@ -67,9 +64,14 @@ function useInView({ immediate = false } = {}) {
         const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
         if (reduce || !("IntersectionObserver" in window)) {
-            setSeen(true);
-            return undefined;
+            const id = requestAnimationFrame(() => {
+                setSeen(true);
+            });
+
+            return () => cancelAnimationFrame(id);
         }
+
+
         if (immediate) {
             const id = requestAnimationFrame(() => setSeen(true));
             return () => cancelAnimationFrame(id);

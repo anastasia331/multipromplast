@@ -1,12 +1,12 @@
-import FeedbackForm from "./components/FeedbackForm";
-import LocationBlock from "./components/LocationBlock";
-export default function PageContacts() {
 
+import FeedbackForm from './components/FeedbackForm/FeedbackForm';
+import LocationBlock from './components/LocationBlock/LocationBlock';
+
+export default function PageContacts() {
     return (
         <main>
-<FeedbackForm/>
-<LocationBlock/>
+            <FeedbackForm />
+            <LocationBlock />
         </main>
     );
-
 }

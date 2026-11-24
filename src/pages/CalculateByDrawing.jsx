@@ -1,3 +1,5 @@
+import { trackMetrikaGoal } from '../../utils/metrika';
+
 export default function CalculateByDrawing() {
     return (
         <section className="min-h-screen w-full flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8 bg-gray-50 text-slate-900">
