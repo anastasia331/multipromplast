@@ -1,4 +1,6 @@
-export default function Ticker() {
+import { memo } from 'react';
+
+export default memo(function Ticker() {
     // Базовый набор фраз
     const baseItems = [
         "Изготовление пластиковых изделий",
@@ -44,4 +46,4 @@ export default function Ticker() {
             </div>
         </div>
     );
-}
+})

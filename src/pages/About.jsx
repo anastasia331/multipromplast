@@ -1,318 +1,369 @@
-import { useState } from "react";
-import { IMAGE_ASSETS, steps, capabilities, principles } from "./aboutUs/AboutDataUs";
+import { useEffect, useRef, useState } from "react";
+import { IMAGE_ASSETS } from "./aboutUs/AboutDataUs";
 import { ContactDialog } from "../pages/aboutUs/ContactDialog";
-function Eyebrow({ children, light = false }) {
+
+/* ------------------------------------------------------------------ */
+/*  Токены: navy #0b1b33 · ink #071426 · orange #c2410c · slate       */
+/* ------------------------------------------------------------------ */
+
+const CONTAINER = "mx-auto w-full max-w-6xl px-5 sm:px-8";
+const SECTION_Y = "py-14 sm:py-18 lg:py-24";
+
+const GRID_BG =
+    "bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px]";
+
+/* ------------------------------------------------------------------ */
+/*  Контент страницы. Тексты правятся только здесь.                   */
+/* ------------------------------------------------------------------ */
+
+// Ключевые факты внизу первого экрана
+const FACTS = [
+    { value: "Липецк", label: "собственное производство" },
+    { value: "10+", label: "термопластавтоматов" },
+    { value: "Любые объёмы", label: "от небольших партий до крупных серий" },
+    { value: "Россия и Беларусь", label: "география поставок" },
+];
+
+// География поставок
+const GEOGRAPHY = [
+    ["Липецк", "Производство и отгрузка продукции."],
+    ["Вся Россия", "Работаем с заказчиками из любых регионов."],
+    ["Республика Беларусь", "Поставляем продукцию предприятиям и организациям."],
+];
+
+// Как мы работаем с задачами и объёмами
+const SCOPE = [
+    {
+        title: "Малые и крупные заказчики",
+        text: "Сотрудничаем с компаниями разных направлений и масштабов: от небольших заказчиков до крупных предприятий.",
+    },
+    {
+        title: "Ваши чертежи или наши разработки",
+        text: "Выполняем заказы по чертежам и техническим заданиям клиентов, а также выпускаем продукцию по собственным разработкам.",
+    },
+    {
+        title: "Решение под задачу",
+        text: "Учитываем объём заказа и особенности дальнейшего использования продукции, чтобы результат подходил именно вам.",
+    },
+];
+
+const BRIEF = [
+    "Чертёж или 3D-модель изделия",
+    "Материал или требования к нему",
+    "Планируемый объём выпуска",
+    "Условия эксплуатации детали",
+];
+
+/* ------------------------------------------------------------------ */
+/*  Анимация появления (уважает prefers-reduced-motion)               */
+/* ------------------------------------------------------------------ */
+
+function useInView({ immediate = false } = {}) {
+    const ref = useRef(null);
+    const [seen, setSeen] = useState(false);
+
+    useEffect(() => {
+        const node = ref.current;
+        const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduce || !("IntersectionObserver" in window)) {
+            setSeen(true);
+            return undefined;
+        }
+        if (immediate) {
+            const id = requestAnimationFrame(() => setSeen(true));
+            return () => cancelAnimationFrame(id);
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setSeen(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.15, rootMargin: "0px 0px -6% 0px" },
+        );
+        if (node) observer.observe(node);
+        return () => observer.disconnect();
+    }, [immediate]);
+
+    return [ref, seen];
+}
+
+function Reveal({ children, delay = 0, immediate = false, as: Tag = "div", className = "" }) {
+    const [ref, seen] = useInView({ immediate });
     return (
-        <p
-            className={`mb-4 text-xs font-bold uppercase tracking-[0.18em] ${light ? "text-orange-300" : "text-orange-700"
+        <Tag
+            ref={ref}
+            style={{ transitionDelay: `${delay}ms` }}
+            className={`transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none ${seen ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                } ${className}`}
+        >
+            {children}
+        </Tag>
+    );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Мелкие компоненты                                                  */
+/* ------------------------------------------------------------------ */
+
+function H2({ id, children, light = false }) {
+    return (
+        <h2
+            id={id}
+            className={`text-balance text-2xl font-semibold leading-tight tracking-[-0.02em] sm:text-[1.75rem] lg:text-[2rem] ${light ? "text-white" : "text-[#0b1b33]"
                 }`}
         >
             {children}
-        </p>
+        </h2>
     );
 }
-function SectionHeading({ eyebrow, title, description, light = false }) {
+
+function CtaButton({ onClick, children }) {
     return (
-        <div className="max-w-3xl">
-            {eyebrow && <Eyebrow light={light}>{eyebrow}</Eyebrow>}
-            <h2
-                className={`text-3xl font-semibold leading-tight tracking-[-0.035em] sm:text-4xl lg:text-5xl ${light ? "text-white" : "text-slate-950"
-                    }`}
+        <button
+            type="button"
+            onClick={onClick}
+            className="group inline-flex min-h-11 items-center justify-center gap-2.5 rounded-md bg-orange-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-orange-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500"
+        >
+            {children}
+            <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                className="h-3.5 w-3.5 fill-none stroke-current transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                strokeWidth="2"
             >
-                {title}
-            </h2>
-            {description && (
-                <p
-                    className={`mt-5 max-w-2xl text-base leading-7 sm:text-lg sm:leading-8 ${light ? "text-slate-300" : "text-slate-600"
-                        }`}
-                >
-                    {description}
-                </p>
-            )}
-        </div>
+                <path d="M4 10h12M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+        </button>
     );
 }
-function Image({ asset, className = "", priority = false }) {
+
+function Check() {
     return (
-        <img
-            src={asset.src}
-            alt={asset.alt}
-            className={className}
-            loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
-            decoding="async"
-        />
+        <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            className="mt-1 h-4 w-4 shrink-0 fill-none stroke-blue-700"
+            strokeWidth="2"
+        >
+            <path d="M4 10.5l4 4 8-9" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
     );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Страница                                                           */
+/* ------------------------------------------------------------------ */
 
-export function About({ onSubmitLead }) {
+export function About() {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const lastTrigger = useRef(null);
+    const [heroRef, heroSeen] = useInView({ immediate: true });
 
-    const openDialog = () => setIsDialogOpen(true);
-    const closeDialog = () => setIsDialogOpen(false);
+    const openDialog = (event) => {
+        lastTrigger.current = event?.currentTarget ?? null;
+        setIsDialogOpen(true);
+    };
+
+    // Возвращаем фокус на кнопку, открывшую окно (WCAG 2.4.3)
+    const closeDialog = () => {
+        setIsDialogOpen(false);
+        requestAnimationFrame(() => lastTrigger.current?.focus());
+    };
+
     return (
         <>
-            <main className="overflow-hidden bg-white font-sans text-slate-900">
-                {/*  крупное фото + короткое позиционирование */}
-                <section className="relative isolate min-h-[620px] bg-slate-950 text-white sm:min-h-[680px]">
-                    <Image
-                        asset={IMAGE_ASSETS.hero}
-                        priority
-                        className="absolute inset-0 -z-20 h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/35" />
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-t from-slate-950/60 via-transparent to-slate-950/10" />
+            <a
+                href="#about-main"
+                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-[#0b1b33]"
+            >
+                Перейти к содержимому
+            </a>
 
-                    <div className="mx-auto flex min-h-[620px] max-w-7xl items-end px-5 pb-16 pt-28 sm:min-h-[680px] sm:px-8 sm:pb-20 lg:px-12">
-                        <div className="max-w-3xl">
-                            <p className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-300">
-                                <span className="h-px w-8 bg-orange-400" />
-                                Мультипромпласт - Производство пластиковых изделий
-                            </p>
-                            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
-                                Технологии, из которых создаются решения
-                            </h1>
-                            <p className="mt-7 max-w-2xl text-base leading-7 text-slate-200 sm:text-lg sm:leading-8">
-                                Изготовление изделий из пластмасс методом литья под давлением,
-                                работа с пресс-формами и техническая проработка производственных задач.
-                            </p>
-                            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                                <button
-                                    type="button"
-                                    onClick={openDialog}
-                                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-orange-700 px-7 py-3 font-semibold text-white transition hover:bg-orange-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                                >
-                                    Обсудить проект <span aria-hidden="true" className="ml-3">↗</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="absolute bottom-5 right-5 hidden text-right text-[10px] uppercase tracking-[0.2em] text-white/60 lg:block">
-                        Инженерия · Материалы · Производство
-                    </div>
-                </section>
-                {/* ABOUT: текст слева, фотография справа */}
-                <section className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-12 lg:items-center lg:gap-16 lg:px-12 lg:py-28">
-                    <div className="lg:col-span-6">
-                        <Eyebrow>О компании</Eyebrow>
-                        <h2 className="text-3xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl lg:text-5xl">
-                            Производство, основанное на инженерном подходе
-                        </h2>
-                        <div className="mt-7 space-y-5 text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-                            <p className="font-medium text-slate-800">
-                                Мультипромпласт — производственная компания, специализирующаяся
-                                на изготовлении изделий из пластмасс методом литья под давлением
-                                и решении задач, связанных с технологической оснасткой.
-                            </p>
-                            <p>
-                                Мы помогаем переводить технические требования в готовые пластиковые
-                                компоненты. При работе над проектом учитываем конструкцию изделия,
-                                свойства материала, особенности пресс-формы и параметры процесса.
-                            </p>
-                            <p>
-                                Для нас важно понимать назначение каждой детали и условия, в которых
-                                она будет использоваться. Такой подход помогает рассматривать
-                                производственную задачу целиком и выбирать обоснованный путь её реализации.
-                            </p>
-                            <p className="font-medium text-slate-800">
-                                Наша задача — обеспечить надёжную производственную основу для проектов
-                                заказчиков и выстраивать сотрудничество на понятных технических требованиях.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="relative lg:col-span-6">
-                        <div className="overflow-hidden rounded-2xl bg-slate-100">
-                            <Image
-                                asset={IMAGE_ASSETS.about}
-                                className="aspect-[4/5] w-full object-cover sm:aspect-[5/4] lg:aspect-[4/5]"
-                            />
-                        </div>
-                        <div className="mt-3 flex items-start justify-between gap-4 text-xs leading-5 text-slate-500">
-                            <span>Инженерный подход на каждом этапе проекта</span>
-                        </div>
-                    </div>
-                </section >
-
-                {/* CAPABILITIES: светлая техническая секция */}
-                < section id="capabilities" className="scroll-mt-8 bg-slate-50 py-20 sm:py-24 lg:py-28" >
-                    <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-                        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-                            <div className="lg:col-span-7">
-                                <SectionHeading
-                                    eyebrow="Направления работы"
-                                    title="Технологические возможности"
-                                    description="Производство пластиковых изделий объединяет несколько взаимосвязанных процессов. В зависимости от задачи проект может включать отдельные этапы или комплексную техническую проработку."
-                                />
-                            </div>
-                            <div className="lg:col-span-5 lg:pb-2">
-                                <p className="border-l-2 border-orange-600 pl-5 text-sm leading-7 text-slate-600 sm:text-base">
-                                    Конкретный состав работ, доступные материалы, типы изделий и параметры
-                                    производства определяются после изучения технического задания.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                            {capabilities.map((item) => (
-                                <article
-                                    key={item.number}
-                                    className="flex min-h-60 flex-col border-t border-slate-300 bg-white p-6 transition-colors hover:border-orange-600 sm:p-7"
-                                >
-                                    <span className="text-sm font-semibold tracking-widest text-orange-700">
-                                        {item.number}
-                                    </span>
-                                    <h3 className="mt-9 text-xl font-semibold leading-snug tracking-tight text-slate-950">
-                                        {item.title}
-                                    </h3>
-                                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-                                </article>
-                            ))}
-                        </div>
-
-
-                        <div className="mt-8 overflow-hidden rounded-2xl bg-slate-200">
-                            <Image
-                                asset={IMAGE_ASSETS.molding}
-                                className="aspect-[16/7] max-h-[440px] w-full object-cover"
-                            />
-                        </div>
-                    </div>
-                </section>
-                <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-                    <SectionHeading
-                        eyebrow="Этапы проекта"
-                        title="От технической задачи — к готовому изделию"
-                        description="Каждый проект начинается с понимания требований заказчика. Последовательность и состав этапов определяются особенностями конкретного изделия."
-                    />
-
-                    <div className="mt-12 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-                        {steps.map((step, index) => (
-                            <article key={step.number} className="relative border-t border-slate-200 py-7 sm:py-8">
-                                <span className="text-sm font-bold tracking-widest text-orange-700">{step.number}</span>
-                                <h3 className="mt-4 text-xl font-semibold tracking-tight text-slate-950">{step.title}</h3>
-                                <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
-                                    {step.text}
-                                </p>
-                                {index !== steps.length - 1 && (
-                                    <span aria-hidden="true" className="absolute right-0 top-8 hidden text-2xl text-slate-300 lg:block"></span>
-                                )}
-                            </article>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="bg-slate-950 py-20 text-white sm:py-24 lg:py-28">
-                    <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:items-center lg:gap-16 lg:px-12">
-                        <div className="overflow-hidden rounded-2xl bg-slate-800 lg:col-span-7">
-                            <Image asset={IMAGE_ASSETS.quality} className="aspect-[5/4] w-full object-cover" />
-                        </div>
-                        <div className="lg:col-span-5">
-                            <SectionHeading
-                                light
-                                eyebrow="Подход к качеству"
-                                title="Качество начинается задолго до выпуска изделия"
-                                description="На характеристики готовой детали влияет вся цепочка производства: конструкция, материал, оснастка и корректно организованный технологический процесс."
-                            />
-                <p className="mt-6 text-sm leading-7 text-slate-300 sm:text-base">
-                    Поэтому мы уделяем внимание не только готовому изделию, но и исходным
-                    требованиям, подготовке производства и согласованию параметров проекта.
-                </p>
-                <ul className="mt-8 space-y-4">
-                    {[
-                        "Технические требования и геометрия изделия",
-                        "Соответствие материала назначению детали",
-                        "Согласованные параметры производственного процесса",
-                    ].map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-200">
-                            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400" />
-                            {item}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div >
-         </section >
-        <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-            <div className="grid gap-10 lg:grid-cols-12">
-                <div className="lg:col-span-5">
-                    <SectionHeading
-                        eyebrow="Наш подход"
-                        title="Профессиональное взаимодействие на каждом этапе"
-                        description="Мы стремимся выстраивать сотрудничество, в котором техническая задача заказчика становится отправной точкой для поиска подходящего решения."
-                    />
-                </div>
-                <div className="grid gap-0 sm:grid-cols-2 lg:col-span-7">
-                    {principles.map((item) => (
-                        <article key={item.number} className="border-t border-slate-200 py-6 sm:px-5 sm:py-7">
-                            <span className="text-xs font-bold tracking-widest text-orange-700">{item.number}</span>
-                            <h3 className="mt-3 text-lg font-semibold text-slate-950">{item.title}</h3>
-                            <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
-                        </article>
-                    ))}
-                </div>
-            </div>
-        </section>
-
-    {/* PRODUCT IMAGE: визуальная пауза и детали */ }
-    <section className="bg-[#f3f4f2] py-20 sm:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-12 lg:items-center lg:px-12">
-            <div className="lg:col-span-5">
-                <Eyebrow>Пластиковые компоненты</Eyebrow>
-                <h2 className="text-3xl font-semibold leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl">
-                    Форма, материал и назначение — в центре внимания
-                </h2>
-                <p className="mt-5 text-base leading-7 text-slate-600">
-                    Пластиковые детали могут существенно различаться по геометрии,
-                    функциональности и условиям эксплуатации. При проработке проекта
-                    важно учитывать не только внешний вид изделия, но и требования
-                    к его работе в составе готового узла или конструкции.
-                </p>
-            </div>
-            <div className="lg:col-span-7">
-                <div className="overflow-hidden rounded-2xl bg-white">
-                    <Image asset={IMAGE_ASSETS.parts} className="aspect-[16/10] w-full object-cover" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {/* CTA */ }
-    <section className="relative isolate overflow-hidden bg-slate-950 py-20 text-white sm:py-24 lg:py-32">
-        <Image
-            asset={IMAGE_ASSETS.closing}
-            className="absolute inset-0 -z-20 h-full w-full object-cover opacity-35"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/55" />
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-            <div className="max-w-3xl">
-                <Eyebrow light>Мультипромпласт</Eyebrow>
-                <h2 className="text-3xl font-semibold leading-tight tracking-[-0.04em] sm:text-4xl lg:text-6xl">
-                    Есть задача? Давайте обсудим её вместе.
-                </h2>
-                <p className="mt-6 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
-                    Расскажите нам о будущем изделии, его назначении и технических требованиях.
-                    Изучим исходные данные и обсудим возможные варианты реализации проекта.
-                </p>
-                <button
-                    type="button"
-                    onClick={openDialog}
-                    className="mt-9 inline-flex min-h-12 items-center justify-center rounded-xl bg-orange-700 px-7 py-3 font-semibold text-white transition hover:bg-orange-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            <main
+                id="about-main"
+                className="overflow-x-clip bg-white font-sans text-sm leading-6 text-slate-900 antialiased sm:text-[15px]"
+            >
+                {/* ============ 1. HERO + факты ============ */}
+                <section
+                    ref={heroRef}
+                    aria-labelledby="hero-title"
+                    className="relative isolate overflow-hidden bg-[#071426] text-white"
                 >
-                    Обсудить проект <span aria-hidden="true" className="ml-3">↗</span>
-                </button>
-            </div>
-        </div>
-    </section>
-      </main >
+                    <img
+                        src={IMAGE_ASSETS.hero.src}
+                        alt=""
+                        aria-hidden="true"
+                        width={IMAGE_ASSETS.hero.width}
+                        height={IMAGE_ASSETS.hero.height}
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="async"
+                        className={`absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[2200ms] ease-out motion-reduce:transition-none ${heroSeen ? "scale-100" : "scale-[1.06]"
+                            }`}
+                    />
+                    <div
+                        aria-hidden="true"
+                        className="absolute inset-0 -z-10 bg-gradient-to-r from-[#071426] via-[#071426]/90 to-[#0b2a5b]/45"
+                    />
+                    <div
+                        aria-hidden="true"
+                        className="absolute inset-0 -z-10 bg-gradient-to-t from-[#071426] via-[#071426]/40 to-transparent"
+                    />
 
-        <ContactDialog
-            open={isDialogOpen}
-            onClose={closeDialog}
-            onSubmitLead={onSubmitLead}
-        />
-    </>
-  );
+                    <div className={`${CONTAINER} flex min-h-[520px] flex-col justify-end pb-8 pt-28 sm:min-h-[560px] sm:pb-10`}>
+                        <div className="max-w-2xl">
+                            <Reveal immediate>
+                                <p className="mb-4 text-[13px] font-semibold tracking-wide text-orange-300">
+                                    О компании
+                                </p>
+                            </Reveal>
+                            <Reveal immediate delay={100}>
+                                <h1
+                                    id="hero-title"
+                                    className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-4xl lg:text-[2.75rem]"
+                                >
+                                    Мультипромпласт — производство пластиковых изделий
+                                </h1>
+                            </Reveal>
+                            <Reveal immediate delay={200}>
+                                <p className="mt-5 max-w-xl text-[15px] leading-7 text-slate-200">
+                                    Производственная компания из Липецка. Выпускаем собственную продукцию
+                                    и выполняем заказы по индивидуальным требованиям клиентов.
+                                </p>
+                            </Reveal>
+                            <Reveal immediate delay={300} className="mt-7">
+                                <CtaButton onClick={openDialog}>Обсудить проект</CtaButton>
+                            </Reveal>
+                        </div>
+
+                        <Reveal
+                            immediate
+                            delay={450}
+                            as="dl"
+                            className="mt-12 grid grid-cols-2 border-t border-white/20 lg:grid-cols-4"
+                        >
+                            {FACTS.map((fact, i) => (
+                                <div
+                                    key={fact.label}
+                                    className={`flex flex-col-reverse justify-end py-4 pr-4 lg:px-5 lg:first:pl-0 ${i > 0 ? "lg:border-l lg:border-white/15" : ""
+                                        }`}
+                                >
+                                    <dt className="mt-0.5 text-[13px] leading-5 text-slate-300">{fact.label}</dt>
+                                    <dd className="text-lg font-semibold leading-6 text-white sm:text-xl">{fact.value}</dd>
+                                </div>
+                            ))}
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ============ 2. СОБСТВЕННОЕ ПРОИЗВОДСТВО + ГЕОГРАФИЯ ============ */}
+                <section aria-labelledby="about-title" className={`${CONTAINER} ${SECTION_Y}`}>
+                    <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+                        <Reveal>
+                            <H2 id="about-title">Собственное производство, а значит — своя организация работы</H2>
+                            <p className="mt-5 max-w-lg text-lg leading-8 text-slate-700">
+                                Все основные процессы идут на наших мощностях. Мы сами планируем работу
+                                над заказом и учитываем требования каждого проекта.
+                            </p>
+                            <p className="mt-4 max-w-lg leading-7 text-slate-600">
+                                Парк оборудования насчитывает более 10 термопластавтоматов. Это позволяет
+                                работать с разными типами изделий и брать заказы любого объёма: от небольших
+                                партий до крупных серий.
+                            </p>
+                        </Reveal>
+
+                        <Reveal delay={100}>
+                            <h3 className="border-b border-slate-200 pb-3 text-base font-semibold text-[#0b1b33]">
+                                География поставок
+                            </h3>
+                            <ul className="divide-y divide-slate-200">
+                                {GEOGRAPHY.map(([title, text]) => (
+                                    <li key={title} className="flex flex-col gap-0.5 py-3.5 sm:flex-row sm:gap-6">
+                                        <span className="font-semibold text-[#0b1b33] sm:w-52 sm:shrink-0">{title}</span>
+                                        <span className="text-slate-600">{text}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="mt-4 text-[13px] leading-6 text-slate-500">
+                                Поставляем продукцию для предприятий и организаций разных отраслей.
+                            </p>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ============ 3. ЗАДАЧИ И ОБЪЁМЫ + долгосрочное сотрудничество ============ */}
+                <section
+                    aria-labelledby="scope-title"
+                    className="relative isolate overflow-hidden bg-[#0b1b33] text-white"
+                >
+                    <div aria-hidden="true" className={`absolute inset-0 -z-10 ${GRID_BG}`} />
+                    <div className={`${CONTAINER} ${SECTION_Y}`}>
+                        <Reveal className="max-w-2xl">
+                            <H2 light id="scope-title">Работаем с разными задачами и объёмами</H2>
+                            <p className="mt-4 text-slate-300">
+                                Нам важно не просто выполнить заказ, а найти подходящее решение с учётом
+                                задачи, объёма и особенностей использования продукции.
+                            </p>
+                        </Reveal>
+
+                        <ul className="mt-10 grid gap-x-10 gap-y-2 md:grid-cols-3">
+                            {SCOPE.map((item, i) => (
+                                <Reveal as="li" key={item.title} delay={i * 110} className="relative py-5">
+                                    <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-white/15" />
+                                    <span aria-hidden="true" className="absolute left-0 top-0 h-px w-10 bg-orange-500" />
+                                    <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                                    <p className="mt-2 text-[13px] leading-6 text-slate-300 sm:text-sm">{item.text}</p>
+                                </Reveal>
+                            ))}
+                        </ul>
+
+                        <Reveal className="mt-8 grid gap-3 border-t border-white/15 pt-8 lg:grid-cols-2 lg:gap-16">
+                            <h3 className="text-base font-semibold text-white">Ориентир на долгосрочное сотрудничество</h3>
+                            <p className="max-w-lg leading-7 text-slate-300">
+                                Мы ценим доверие клиентов и строим отношения на взаимопонимании. Сотрудничество
+                                должно быть удобным и понятным на каждом этапе: от обсуждения задачи
+                                до получения готовой продукции.
+                            </p>
+                        </Reveal>
+                    </div>
+                </section>
+
+                {/* ============ 4. CTA ============ */}
+                <section aria-labelledby="cta-title" className={`${CONTAINER} ${SECTION_Y}`}>
+                    <Reveal className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+                        <div>
+                            <H2 id="cta-title">Расскажите о вашем изделии</H2>
+                            <p className="mt-4 max-w-lg text-lg leading-8 text-slate-700">
+                                Изучим исходные данные и предложим варианты реализации проекта.
+                            </p>
+                            <div className="mt-7">
+                                <CtaButton onClick={openDialog}>Обсудить проект</CtaButton>
+                            </div>
+                        </div>
+
+                        <div className="border-l-2 border-orange-600 pl-6">
+                            <p className="font-semibold text-[#0b1b33]">Что поможет оценить задачу</p>
+                            <ul className="mt-4 space-y-3">
+                                {BRIEF.map((item) => (
+                                    <li key={item} className="flex items-start gap-3 text-slate-700">
+                                        <Check />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="mt-5 text-[13px] text-slate-500">
+                                Неполные данные не помеха: начнём с того, что есть.
+                            </p>
+                        </div>
+                    </Reveal>
+                </section>
+            </main>
+
+            <ContactDialog open={isDialogOpen} onClose={closeDialog} />
+        </>
+    );
 }
-
-export default About;

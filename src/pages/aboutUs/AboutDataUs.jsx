@@ -1,7 +1,7 @@
-import heroImage from "../../assets/engineering-apprentice-safety-glasses.webp";
+import heroImage from "../../assets/proizvodstvoPlastikovykhIzdeliyMultipromplast.webp";
 import aboutImage from "../../assets/control-room-operators-monitoring-systems.webp";
 import moldingImage from "../../assets/equipment-installation-and-maintenance.webp";
-import partsImage from "../../assets/engineering-apprentice-safety-glasses.webp";
+
 import qualityImage from "../../assets/cad-engineering-technical-drawing.webp";
 import productionImage from "../../assets/industrial-engineer-testing-equipment.webp";
 export const IMAGE_ASSETS = {
@@ -21,7 +21,7 @@ export const IMAGE_ASSETS = {
         note: "Технологии: крупный план литьевой машины, пресс-формы или производственного участка.",
     },
     parts: {
-        src: partsImage,
+        src: heroImage,
         alt: "Технические компоненты и производственные детали",
         note: "Компетенции: макрофотография готовых пластиковых деталей на нейтральном фоне.",
     },

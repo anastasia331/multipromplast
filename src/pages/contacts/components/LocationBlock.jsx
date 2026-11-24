@@ -1,4 +1,6 @@
-export default function LocationBlock() {
+import { memo } from 'react';
+
+export default memo(function LocationBlock() {
     return (
         <section className="relative w-full py-16 px-6 sm:px-10 bg-gray-900 text-white">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-stretch">
@@ -54,4 +56,4 @@ export default function LocationBlock() {
             </div>
         </section>
     );
-}
+})

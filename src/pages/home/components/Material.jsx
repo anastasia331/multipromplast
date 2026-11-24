@@ -1,132 +1,459 @@
+
+import { useMemo, useState } from 'react';
+import { materials } from './ListMaterials';
+
+const categories = [
+    'Все',
+    'Базовые',
+    'Инженерные',
+    'Суперполимеры',
+    'Эластомеры и композиты',
+];
+
 export default function MaterialsBlock() {
-    // Полный список всех видов пластика для производства
-    const materials = [
-        {
-            code: "ABS",
-            name: "АБС-пластик",
-            desc: "Ударная прочность, корпуса, автодетали",
-            tag: "Популярное",
-        },
-        {
-            code: "PP",
-            name: "Полипропилен",
-            desc: "Химостойкость, емкости, автопром",
-            tag: "Базовый",
-        },
-        {
-            code: "PE / HDPE",
-            name: "Полиэтилен (ПНД/ПВД)",
-            desc: "Износостойкость, тара, трубы",
-            tag: "Базовый",
-        },
-        {
-            code: "PA6 / PA66",
-            name: "Полиамид (Капролон)",
-            desc: "Высокое трение, шестерни, втулки",
-            tag: "Инженерный",
-        },
-        {
-            code: "PC",
-            name: "Поликарбонат",
-            desc: "Прозрачность, ударопрочность, оптика",
-            tag: "Инженерный",
-        },
-        {
-            code: "POM",
-            name: "Полиацеталь (ПОМ)",
-            desc: "Точная механика, жесткость, подшипники",
-            tag: "Инженерный",
-        },
-        {
-            code: "PET / PETG",
-            name: "ПЭТ / ПЭТГ",
-            desc: "Прозрачность, бутылки, корпусные детали",
-            tag: "Популярное",
-        },
-        {
-            code: "PS / HIPS",
-            name: "Полистирол",
-            desc: "Легкая формовка, одноразовая посуда, корпуса",
-            tag: "Базовый",
-        },
-        {
-            code: "PVC",
-            name: "ПВХ (Поливинилхлорид)",
-            desc: "Жесткий и гибкий, профили, изоляция",
-            tag: "Спецпластик",
-        },
-        {
-            code: "PMMA",
-            name: "Акрил (Оргстекло)",
-            desc: "Высокая прозрачность, светотехника",
-            tag: "Спецпластик",
-        },
-        {
-            code: "TPU / TPE",
-            name: "Термоэластопласты",
-            desc: "Гибкость, резиноподобность, уплотнители",
-            tag: "Эластомер",
-        },
-        {
-            code: "PEEK",
-            name: "ПИИК (PEEK)",
-            desc: "Сверхтермостойкость, авиация, медицина",
-            tag: "Премиум",
-        },
-    ];
+    const [activeCategory, setActiveCategory] = useState('Все');
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    // Фильтрация материалов
+    const filteredMaterials = useMemo(() => {
+        return activeCategory === 'Все'
+            ? materials
+            : materials.filter(
+                (item) => item.category === activeCategory
+            );
+    }, [activeCategory]);
+
+    // Количество отображаемых карточек
+    const displayedMaterials =
+        activeCategory === 'Все' && !isExpanded
+            ? filteredMaterials.slice(0, 10)
+            : filteredMaterials;
+
+    // Переключение категории
+    const handleCategoryChange = (category) => {
+        setActiveCategory(category);
+        setIsExpanded(false);
+    };
 
     return (
-        <section className="w-full py-12 px-6 sm:px-10 bg-slate-900 border-y border-slate-800">
-            <div className="max-w-6xl mx-auto">
-                {/* Заголовок блока */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <section
+            id="materials"
+            aria-labelledby="materials-heading"
+            className="
+                relative
+                w-full
+                bg-white
+                py-14
+                sm:py-16
+                lg:py-20
+                px-4
+                sm:px-6
+                lg:px-8
+            "
+        >
+            <div className="max-w-screen-2xl mx-auto">
+
+                {/* ==================================
+                    ЗАГОЛОВОК СЕКЦИИ
+                ================================== */}
+
+                <div className="
+                    grid
+                    grid-cols-1
+                    lg:grid-cols-2
+                    gap-5
+                    lg:gap-12
+                    items-end
+                    mb-10
+                    lg:mb-12
+                ">
+
                     <div>
-                        <span className="text-xs text-indigo-400 uppercase tracking-widest font-semibold block mb-1">
-                            Сырьевая база
+                        <span className="
+                            inline-flex
+                            items-center
+                            gap-2
+                            text-blue-700
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-[0.16em]
+                            mb-3
+                        ">
+                            <span className="
+                                w-7
+                                h-[2px]
+                                bg-orange-500
+                            " />
+                            Материальная база производства
                         </span>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                            Материалы, с которыми мы работаем
+
+                        <h2
+                            id="materials-heading"
+                            className="
+                                text-3xl
+                                sm:text-4xl
+                                lg:text-5xl
+                                font-bold
+                                tracking-tight
+                                text-slate-950
+                                leading-tight
+                            "
+                        >
+                            Материалы и полимеры
                         </h2>
                     </div>
-                    <p className="text-slate-400 text-sm max-w-md">
-                        Подбираем полимеры под любые задачи: от стандартных бытовых изделий до высоконагруженных инженерных деталей.
+
+                    <div className="lg:pb-1">
+                        <p className="
+                            text-sm
+                            sm:text-base
+                            text-slate-600
+                            leading-relaxed
+                            max-w-2xl
+                        ">
+                            Работаем с термопластами различных групп —
+                            от базовых до высокотехнологичных инженерных
+                            материалов. Подбираем сырьё с учётом требований
+                            технической документации, условий эксплуатации
+                            и характеристик готовых изделий.
+                        </p>
+                    </div>
+
+                </div>
+
+                {/* ==================================
+                    НАВИГАЦИЯ ПО КАТЕГОРИЯМ
+                ================================== */}
+
+                <div className="
+                    border-y
+                    border-slate-200
+                    py-4
+                    mb-7
+                ">
+
+                    <div
+                        className="
+                            flex
+                            gap-2
+                            overflow-x-auto
+                            pb-1
+                            sm:flex-wrap
+                            sm:overflow-visible
+                            sm:pb-0
+                        "
+                        role="group"
+                        aria-label="Фильтр материалов по категориям"
+                    >
+                        {categories.map((category) => {
+                            const isActive =
+                                activeCategory === category;
+
+                            return (
+                                <button
+                                    key={category}
+                                    type="button"
+                                    onClick={() =>
+                                        handleCategoryChange(category)
+                                    }
+                                    aria-pressed={isActive}
+                                    className={`
+                                        shrink-0
+                                        rounded-md
+                                        px-4
+                                        py-2.5
+                                        text-xs
+                                        sm:text-sm
+                                        font-semibold
+                                        border
+                                        transition-colors
+                                        duration-200
+                                        focus-visible:outline-none
+                                        focus-visible:ring-2
+                                        focus-visible:ring-blue-600
+                                        focus-visible:ring-offset-2
+                                        ${isActive
+                                            ? 'bg-blue-950 text-white border-blue-950'
+                                            : 'bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:text-blue-800'
+                                        }
+                                    `}
+                                >
+                                    {category}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                </div>
+
+                {/* ==================================
+                    ИНФОРМАЦИЯ О РЕЗУЛЬТАТАХ
+                ================================== */}
+
+                <div className="
+                    flex
+                    flex-wrap
+                    justify-between
+                    items-center
+                    gap-2
+                    mb-5
+                ">
+                    <p className="
+                        text-xs
+                        sm:text-sm
+                        font-medium
+                        text-slate-500
+                    ">
+                        {activeCategory === 'Все'
+                            ? 'Ассортимент материалов'
+                            : activeCategory
+                        }
+                    </p>
+
+                    <p
+                        className="
+                            text-xs
+                            sm:text-sm
+                            font-semibold
+                            text-slate-500
+                            tabular-nums
+                        "
+                        aria-live="polite"
+                    >
+                        Найдено: {filteredMaterials.length}
                     </p>
                 </div>
 
-                {/* Сетка материалов */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    {materials.map((item, index) => (
-                        <div
-                            key={index}
-                            className="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 hover:border-indigo-500/50 rounded-xl p-4 transition-all duration-300 flex flex-col justify-between group shadow-lg hover:-translate-y-1"
-                        >
-                            <div>
-                                {/* Иконка / Код полимера */}
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                                        ⬡
-                                    </span>
-                                    <span className="text-[10px] text-slate-500 group-hover:text-slate-400">
-                                        {item.tag}
-                                    </span>
-                                </div>
+                {/* ==================================
+                    КАТАЛОГ МАТЕРИАЛОВ
+                ================================== */}
 
-                                {/* Название и код */}
-                                <h3 className="text-lg font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">
-                                    {item.code}
-                                </h3>
-                                <p className="text-xs font-medium text-slate-300 mb-2">
-                                    {item.name}
-                                </p>
+                <div
+                    id="materials-list"
+                    className="
+                        grid
+                        grid-cols-1
+                        min-[480px]:grid-cols-2
+                        md:grid-cols-3
+                        xl:grid-cols-4
+                        2xl:grid-cols-5
+                        gap-3
+                        sm:gap-4
+                    "
+                >
+                    {displayedMaterials.map((item) => (
+                        <article
+                            key={`${item.category}-${item.code}`}
+                            className="
+                                group
+                                relative
+                                flex
+                                min-w-0
+                                min-h-[190px]
+                                flex-col
+                                rounded-lg
+                                border
+                                border-slate-200
+                                bg-white
+                                p-5
+                                transition-all
+                                duration-200
+                                hover:border-blue-300
+                                hover:shadow-lg
+                                hover:shadow-slate-200/60
+                            "
+                        >
+
+                            {/* КАТЕГОРИЯ */}
+
+                            <div className="
+                                flex
+                                items-center
+                                justify-between
+                                gap-2
+                                mb-5
+                            ">
+                                <span className="
+                                    inline-flex
+                                    items-center
+                                    rounded-sm
+                                    bg-slate-100
+                                    px-2.5
+                                    py-1.5
+                                    text-[10px]
+                                    font-bold
+                                    uppercase
+                                    tracking-wide
+                                    text-slate-600
+                                ">
+                                    {item.category}
+                                </span>
+
+                                <span
+                                    aria-hidden="true"
+                                    className="
+                                        h-1.5
+                                        w-1.5
+                                        rounded-full
+                                        bg-blue-600
+                                        opacity-60
+                                    "
+                                />
                             </div>
 
-                            {/* Короткое описание применения */}
-                            <p className="text-[11px] text-slate-400 leading-tight pt-2 border-t border-slate-700/40">
-                                {item.desc}
+                            {/* МАРКА МАТЕРИАЛА */}
+
+                            <h3 className="
+                                text-xl
+                                sm:text-2xl
+                                font-bold
+                                tracking-tight
+                                text-blue-950
+                                leading-tight
+                                break-words
+                                transition-colors
+                                duration-200
+                                group-hover:text-blue-700
+                            ">
+                                {item.code}
+                            </h3>
+
+                            {/* НАЗВАНИЕ */}
+
+                            <p className="
+                                mt-2
+                                text-sm
+                                font-semibold
+                                text-slate-700
+                                leading-snug
+                            ">
+                                {item.name}
                             </p>
-                        </div>
+
+                            {/* ОПИСАНИЕ */}
+
+                            <div className="
+                                mt-auto
+                                pt-5
+                            ">
+                                <div className="
+                                    border-t
+                                    border-slate-100
+                                    pt-3
+                                ">
+
+                                    <p className="
+        text-sm
+    sm:text-base
+    font-normal
+    leading-[1.65]
+    text-[#334155]
+">
+                                        {item.desc}
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </article>
                     ))}
                 </div>
+
+                {/* ==================================
+                    ПУСТОЙ РЕЗУЛЬТАТ
+                ================================== */}
+
+                {filteredMaterials.length === 0 && (
+                    <div className="
+                        rounded-lg
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        py-12
+                        px-5
+                        text-center
+                    ">
+                        <p className="
+                            text-base
+                            font-semibold
+                            text-slate-800
+                        ">
+                            Материалы этой категории пока не добавлены.
+                        </p>
+                    </div>
+                )}
+
+                {/* ==================================
+                    ПОКАЗАТЬ ВСЕ МАТЕРИАЛЫ
+                ================================== */}
+
+                {activeCategory === 'Все' &&
+                    materials.length > 10 && (
+
+                        <div className="
+                        flex
+                        justify-center
+                        mt-9
+                    ">
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setIsExpanded((prev) => !prev)
+                                }
+                                aria-expanded={isExpanded}
+                                aria-controls="materials-list"
+                                className="
+                                inline-flex
+                                items-center
+                                justify-center
+                                gap-3
+                                rounded-lg
+                                border
+                                border-slate-300
+                                bg-white
+                                px-6
+                                py-3
+                                text-sm
+                                font-semibold
+                                text-blue-950
+                                transition-all
+                                duration-200
+                                hover:border-blue-600
+                                hover:bg-blue-50
+                                focus-visible:outline-none
+                                focus-visible:ring-2
+                                focus-visible:ring-blue-600
+                                focus-visible:ring-offset-2
+                            "
+                            >
+                                {isExpanded
+                                    ? 'Свернуть список'
+                                    : `Показать все материалы (${materials.length})`
+                                }
+
+                                <svg
+                                    className={`
+                                    h-4
+                                    w-4
+                                    transition-transform
+                                    duration-200
+                                    ${isExpanded ? 'rotate-180' : ''}
+                                `}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </button>
+                        </div>
+                    )}
+
             </div>
         </section>
     );
