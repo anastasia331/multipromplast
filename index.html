@@ -1,13 +1,49 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/logoMultipromplast.png" />
-    <title>multipromplast</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1e40af" />
+
+  <link rel="icon" type="image/png" href="/logoMultipromplast.png" />
+
+  <!-- Базовые мета-теги (для главной; для других страниц переопределяются) -->
+  <title>Изготовление пластиковых изделий на заказ в Липецке — Мультипромпласт</title>
+  <meta name="description"
+    content="Мультипромпласт — производство пластиковых изделий под заказ в Липецке: литьё на термопластавтоматах, изготовление пресс-форм, доставка по России и в Беларусь." />
+  <link rel="canonical" href="https://ВАШ-ДОМЕН.ru/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Мультипромпласт" />
+  <meta property="og:title" content="Изготовление пластиковых изделий на заказ — Мультипромпласт" />
+  <meta property="og:description"
+    content="Собственное производство в Липецке: литьё пластмасс, пресс-формы, поставки по России и в Беларусь." />
+  <meta property="og:url" content="https://ВАШ-ДОМЕН.ru/" />
+  <meta property="og:image" content="https://ВАШ-ДОМЕН.ru/og-image.jpg" />
+
+  <!-- Разметка о компании -->
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Мультипромпласт",
+        "url": "https://ВАШ-ДОМЕН.ru/",
+        "logo": "https://ВАШ-ДОМЕН.ru/logoMultipromplast.png",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Липецк",
+          "addressCountry": "RU"
+        }
+      }
+    </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

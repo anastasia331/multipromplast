@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IMAGE_ASSETS } from "./aboutUs/AboutDataUs";
+import proizvodstvoPlastikovykhIzdeliyMultipromplast from '../assets/proizvodstvoPlastikovykhIzdeliyMultipromplast.webp' 
 import { ContactDialog } from "../pages/aboutUs/ContactDialog";
 
 
@@ -196,11 +196,9 @@ export function About() {
                     className="relative isolate overflow-hidden bg-[#071426] text-white"
                 >
                     <img
-                        src={IMAGE_ASSETS.hero.src}
+                        src={proizvodstvoPlastikovykhIzdeliyMultipromplast}
                         alt=""
                         aria-hidden="true"
-                        width={IMAGE_ASSETS.hero.width}
-                        height={IMAGE_ASSETS.hero.height}
                         loading="eager"
                         fetchPriority="high"
                         decoding="async"

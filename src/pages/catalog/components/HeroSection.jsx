@@ -1,7 +1,7 @@
 
 const stats = [
     { value: "100%", label: "Контроль качества" },
-    { value: "7+", label: "Видов термопластов" },
+    // { value: "7+", label: "Видов термопластов" },
     { value: "0,01 мм", label: "Точность отливки" },
     { value: "B2B / B2G", label: "Промышленные поставки" },
 ];
@@ -110,7 +110,7 @@ export default function HeroSection() {
                     {stats.map((stat, index) => (
                         <div
                             key={stat.label}
-                            className={`px-4 sm:px-7 py-2 ${index >= 2 ? "border-t border-slate-200 lg:border-t-0" : ""
+                            className={`px-4 text-center sm:px-7 py-2 ${index >= 2 ? "border-t border-slate-200 lg:border-t-0" : ""
                                 }`}
                         >
 

@@ -1,4 +1,4 @@
-import { trackMetrikaGoal } from '../../utils/metrika';
+// import { trackMetrikaGoal } from '../../utils/metrika';
 
 export default function CalculateByDrawing() {
     return (
