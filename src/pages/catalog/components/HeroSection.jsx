@@ -6,6 +6,8 @@ const stats = [
 ];
 
 export default function HeroSection() {
+      
+
     return (
         <section
             aria-labelledby="products-title"

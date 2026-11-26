@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import proizvodstvoPlastikovykhIzdeliyMultipromplast from "../assets/proizvodstvoPlastikovykhIzdeliyMultipromplast.webp";
 import { ContactDialog } from "../pages/aboutUs/ContactDialog";
+import usePageMeta from '../hooks/usePageMeta'
 
+    
 const CONTAINER = "mx-auto w-full max-w-6xl px-5 sm:px-8";
 const SECTION_Y = "py-14 sm:py-18 lg:py-24";
 
@@ -159,6 +161,11 @@ function Check() {
 /* ------------------------------------------------------------------ */
 
 export function About() {
+    usePageMeta(
+        'О компании Мультипромпласт: производство пластика в Липецке',
+        'Мультипромпласт выпускает собственную продукцию и работает по заказам. Собственное производство в Липецке, поставки по России и в Беларусь.'
+    )
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const lastTrigger = useRef(null);
     const [heroRef, heroSeen] = useInView({ immediate: true });

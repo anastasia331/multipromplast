@@ -1,7 +1,11 @@
-
 import { Link } from 'react-router-dom';
-
+import usePageMeta from '../../hooks/usePageMeta';
 export default function Privacy() {
+    usePageMeta(
+        'Политика обработки персональных данных | Мультипромпласт',
+        'Политика ООО «Мультипромпласт» в отношении обработки персональных данных пользователей сайта.'
+    );
+
     return (
         <main className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">

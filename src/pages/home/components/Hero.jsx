@@ -10,9 +10,10 @@ import {
 
 
 import litiePlastmassyPodDavleniem from ' ../../../src/assets/litiePlastmassyPodDavleniem.webp';
-// ==========================================
-// ДАННЫЕ ПРЕИМУЩЕСТВ КОМПАНИИ
-// ==========================================
+
+import usePageMeta from '../../../hooks/usePageMeta'
+
+
 
 const features = [
     {
@@ -78,6 +79,10 @@ const cardVariants = {
 // ==========================================
 
 export default function Hero() {
+    usePageMeta(
+        'Литьё пластмасс под давлением в Липецке | Мультипромпласт',
+        'Производство пластиковых изделий под заказ в Липецке: литьё под давлением, пресс-формы, доставка по России. Работаем по вашим чертежам и ТЗ.'
+    )
     const shouldReduceMotion = useReducedMotion();
 
     return (

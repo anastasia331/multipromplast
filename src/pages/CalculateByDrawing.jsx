@@ -1,6 +1,10 @@
 // import { trackMetrikaGoal } from '../../utils/metrika';
-
+import usePageMeta from '../../hooks/usePageMeta';
 export default function CalculateByDrawing() {
+    usePageMeta(
+        'Расчёт стоимости изделия по чертежу | Мультипромпласт',
+        'Оценим стоимость изготовления пластикового изделия по чертежу, 3D-модели или ТЗ. Свяжитесь с нами по телефону или электронной почте.'
+    );
     return (
         <section className="min-h-screen w-full flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8 bg-gray-50 text-slate-900">
             <div className="max-w-2xl mx-auto text-center">
