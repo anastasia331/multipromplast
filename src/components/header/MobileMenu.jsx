@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink } from 'react-router-dom';
@@ -94,16 +93,16 @@ export default function MobileMenu({
                     className="
                         fixed inset-0 z-[100]
                         lg:hidden
-                        flex items-start justify-center
+                        flex items-start justify-end
                         overflow-y-auto
-                        bg-slate-950/30
-                        backdrop-blur-xl
+                        bg-slate-950/35
+                        backdrop-blur-md
                         overscroll-contain
                     "
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.22 }}
                     onClick={onClose}
                 >
                     {/* Светлая панель */}
@@ -116,20 +115,19 @@ export default function MobileMenu({
                             relative
                             min-h-[100dvh]
                             w-full
-                            max-w-[600px]
-                            ml-auto
+                            max-w-[680px]
                             bg-white
                             shadow-2xl
                             flex flex-col
-                            px-6 sm:px-10
-                            pt-5
-                            pb-8
+                            px-5 sm:px-8
+                            pt-4 sm:pt-5
+                            pb-6
                         "
-                        initial={{ opacity: 0, x: 40 }}
+                        initial={{ opacity: 0, x: 32 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 40 }}
+                        exit={{ opacity: 0, x: 32 }}
                         transition={{
-                            duration: 0.3,
+                            duration: 0.25,
                             ease: [0.22, 1, 0.36, 1],
                         }}
                         onClick={(event) => event.stopPropagation()}
@@ -138,20 +136,22 @@ export default function MobileMenu({
                         <div className="
                             flex items-center
                             justify-between
-                            min-h-[68px]
+                            gap-4
+                            pb-3.5 sm:pb-4
                             border-b border-slate-100
                         ">
                             <NavLink
                                 to="/"
                                 onClick={onClose}
                                 aria-label="Мультипромпласт — главная"
+                                className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
                             >
                                 <img
                                     src={logo}
                                     alt="Мультипромпласт"
                                     className="
-                                        h-14 sm:h-16
-                                        w-auto max-w-[190px]
+                                        h-10 sm:h-12
+                                        w-auto max-w-[165px]
                                         object-contain
                                     "
                                 />
@@ -163,7 +163,7 @@ export default function MobileMenu({
                                 onClick={onClose}
                                 aria-label="Закрыть меню"
                                 className="
-                                    w-11 h-11
+                                    w-10 h-10 sm:w-11 sm:h-11
                                     flex items-center justify-center
                                     rounded-xl
                                     border border-slate-200
@@ -176,14 +176,14 @@ export default function MobileMenu({
                                     focus-visible:ring-orange-500
                                 "
                             >
-                                <X size={23} strokeWidth={1.8} />
+                                <X size={21} strokeWidth={1.8} />
                             </button>
                         </div>
 
                         {/* Информация о компании */}
-                        <div className="pt-10 pb-6">
+                        <div className="pt-4 pb-3.5 sm:pt-6 sm:pb-5">
                             <p className="
-                                text-xs
+                                text-[11px] sm:text-xs
                                 font-semibold
                                 tracking-[0.2em]
                                 uppercase
@@ -193,21 +193,25 @@ export default function MobileMenu({
                             </p>
 
                             <p className="
-                                mt-3
-                                text-sm
+                                mt-1.5 sm:mt-2
+                                text-xs sm:text-sm
                                 leading-relaxed
                                 text-slate-500
-                                max-w-sm
+                                max-w-md
                             ">
-                                Производство пластиковых изделий
-                                и комплексные решения для бизнеса.
+                                Производство пластиковых изделий и комплексные решения для бизнеса.
                             </p>
                         </div>
 
-                        {/* Пункты меню */}
+                        {/* Пункты меню: компактно по вертикали, в 2 колонки на горизонтальном экране и планшетах */}
                         <nav
                             aria-label="Мобильная навигация"
-                            className="flex flex-col"
+                            className="
+                                grid grid-cols-1
+                                sm:grid-cols-2
+                                landscape:grid-cols-2
+                                gap-x-6
+                            "
                         >
                             {navLinks.map((link, index) => (
                                 <NavLink
@@ -219,35 +223,39 @@ export default function MobileMenu({
                                         group
                                         flex items-center
                                         justify-between
-                                        gap-4
-                                        min-h-[76px]
-                                        py-4
+                                        gap-3
+                                        min-h-[48px] sm:min-h-[54px]
+                                        py-2 sm:py-2.5
                                         border-b border-slate-100
                                         transition-colors duration-200
+                                        focus-visible:outline-none
+                                        focus-visible:ring-2
+                                        focus-visible:ring-orange-500
                                     "
                                 >
                                     {({ isActive }) => (
                                         <>
-                                            <div className="flex items-center gap-5">
+                                            <div className="flex min-w-0 items-center gap-3.5 sm:gap-4">
                                                 <span className={`
                                                     text-xs
                                                     font-semibold
                                                     tabular-nums
                                                     ${isActive
                                                         ? 'text-orange-600'
-                                                        : 'text-slate-300'
+                                                        : 'text-slate-400'
                                                     }
                                                 `}>
-                                                    0{index + 1}
+                                                    {String(index + 1).padStart(2, '0')}
                                                 </span>
 
                                                 <span className={`
-                                                    text-lg sm:text-xl
+                                                    truncate
+                                                    text-base sm:text-lg
                                                     font-medium
                                                     tracking-tight
                                                     ${isActive
-                                                        ? 'text-slate-950'
-                                                        : 'text-slate-600 group-hover:text-slate-950'
+                                                        ? 'text-slate-950 font-semibold'
+                                                        : 'text-slate-700 group-hover:text-slate-950'
                                                     }
                                                 `}>
                                                     {link.title}
@@ -255,9 +263,10 @@ export default function MobileMenu({
                                             </div>
 
                                             <ArrowUpRight
-                                                size={19}
+                                                size={17}
                                                 strokeWidth={1.7}
                                                 className={`
+                                                    shrink-0
                                                     transition-all duration-200
                                                     ${isActive
                                                         ? 'text-orange-600'
@@ -272,31 +281,32 @@ export default function MobileMenu({
                         </nav>
 
                         {/* Нижний блок */}
-                        <div className="mt-auto pt-10">
+                        <div className="mt-auto pt-5 sm:pt-7">
                             <div className="
-                                rounded-2xl
+                                rounded-xl sm:rounded-2xl
                                 bg-slate-50
                                 border border-slate-100
-                                p-5 sm:p-6
+                                p-4 sm:p-5
+                                flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4
                             ">
-                                <p className="
-                                    text-sm
-                                    font-semibold
-                                    text-slate-900
-                                ">
-                                    Надёжные решения для бизнеса
-                                </p>
+                                <div className="min-w-0">
+                                    <p className="
+                                        text-xs sm:text-sm
+                                        font-semibold
+                                        text-slate-900
+                                    ">
+                                        Надёжные решения для бизнеса
+                                    </p>
 
-                                <p className="
-                                    mt-2
-                                    text-sm
-                                    leading-relaxed
-                                    text-slate-500
-                                ">
-                                    Ознакомьтесь с направлениями
-                                    производства и возможностями
-                                    нашей компании.
-                                </p>
+                                    <p className="
+                                        mt-1
+                                        text-xs sm:text-sm
+                                        leading-relaxed
+                                        text-slate-500
+                                    ">
+                                        Ознакомьтесь с направлениями производства и возможностями компании.
+                                    </p>
+                                </div>
 
                                 <NavLink
                                     to="/contacts"
@@ -306,28 +316,31 @@ export default function MobileMenu({
                                     }}
                                     className="
                                         inline-flex items-center
-                                        gap-2
-                                        mt-5
-                                        text-sm
+                                        gap-1.5
+                                        shrink-0
+                                        text-xs sm:text-sm
                                         font-semibold
                                         text-orange-600
                                         hover:text-orange-700
                                         transition-colors
+                                        focus-visible:outline-none
+                                        focus-visible:ring-2
+                                        focus-visible:ring-orange-500
+                                        rounded-md
                                     "
                                 >
                                     Связаться с нами
-                                    <ArrowUpRight size={17} />
+                                    <ArrowUpRight size={16} />
                                 </NavLink>
                             </div>
 
                             <p className="
-                                mt-6
+                                mt-4
                                 text-xs
                                 text-slate-400
                                 tracking-wide
                             ">
-                                © {new Date().getFullYear()}
-                                {' '}Мультипромпласт
+                                © {new Date().getFullYear()} Мультипромпласт
                             </p>
                         </div>
                     </motion.section>

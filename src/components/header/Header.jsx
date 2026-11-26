@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -15,18 +14,20 @@ export default function Header() {
     const menuButtonRef = useRef(null);
     const location = useLocation();
 
-    // Определяем название текущей страницы
-    const currentPage =
-        navLinks.find((link) => {
-            if (link.path === '/') {
-                return location.pathname === '/';
-            }
+    // Находим активную ссылку по текущему маршруту
+    const activeLink = navLinks.find((link) => {
+        if (link.path === '/') {
+            return location.pathname === '/';
+        }
 
-            return (
-                location.pathname === link.path ||
-                location.pathname.startsWith(`${link.path}/`)
-            );
-        })?.title || 'Мультипромпласт';
+        return (
+            location.pathname === link.path ||
+            location.pathname.startsWith(`${link.path}/`)
+        );
+    });
+
+    const currentPage = activeLink?.title || 'Мультипромпласт';
+    const currentPath = activeLink?.path || location.pathname;
 
     // Отслеживаем прокрутку
     useEffect(() => {
@@ -45,7 +46,6 @@ export default function Header() {
         };
     }, []);
 
- 
     // Управление мобильным меню
     const openMenu = useCallback(() => {
         setIsOpen(true);
@@ -55,49 +55,52 @@ export default function Header() {
         setIsOpen(false);
     }, []);
 
+    const logoNode = (
+        <NavLink
+            to="/"
+            aria-label="Мультипромпласт — главная"
+            className="
+                inline-flex shrink-0 items-center
+                rounded-lg
+                focus-visible:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-orange-500
+            "
+        >
+            <img
+                src={logo}
+                alt="Мультипромпласт"
+                className="
+                    h-10 w-auto max-w-[140px] object-contain
+                    transition-all duration-300 motion-reduce:transition-none
+                    sm:h-11 lg:h-[68px] lg:max-w-[190px]
+                "
+            />
+        </NavLink>
+    );
+
     return (
         <>
             <header
                 className={`
                     sticky top-0 z-40 w-full
-                    transition-all duration-300
+                    transition-all duration-300 motion-reduce:transition-none
                     ${isScrolled
-                        ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-slate-200/70'
-                        : 'bg-white border-b border-slate-100'
+                        ? 'border-b border-slate-200/70 bg-white/90 shadow-sm backdrop-blur-xl'
+                        : 'border-b border-slate-100 bg-white'
                     }
                 `}
             >
-                <div className="
-                    relative
-                    max-w-7xl mx-auto
-                    h-20
-                    px-4 sm:px-6 lg:px-8
-                    flex items-center justify-between
-                ">
-                    {/* Логотип */}
-                    <div className="flex items-center shrink-0">
-                        <NavLink
-                            to="/"
-                            aria-label="Мультипромпласт — главная"
-                            className="
-                                inline-flex items-center
-                                rounded-lg
-                                focus-visible:outline-none
-                                focus-visible:ring-2
-                                focus-visible:ring-orange-500
-                            "
-                        >
-                            <img
-                                src={logo}
-                                alt="Мультипромпласт"
-                                className="
-                                    h-14 sm:h-16 lg:h-[68px]
-                                    w-auto max-w-[190px]
-                                    object-contain
-                                    transition-all duration-300
-                                "
-                            />
-                        </NavLink>
+                <div
+                    className="
+                        mx-auto flex h-14 max-w-7xl
+                        items-center justify-between gap-2
+                        px-3.5 sm:px-6 lg:h-20 lg:px-8
+                    "
+                >
+                    {/* Логотип для десктопа */}
+                    <div className="hidden shrink-0 items-center lg:flex">
+                        {logoNode}
                     </div>
 
                     {/* Навигация для компьютеров */}
@@ -106,8 +109,10 @@ export default function Header() {
                     {/* Мобильная шапка */}
                     <MobileHeader
                         currentPage={currentPage}
+                        currentPath={currentPath}
                         isOpen={isOpen}
                         onOpen={openMenu}
+                        logo={logoNode}
                     />
                 </div>
             </header>

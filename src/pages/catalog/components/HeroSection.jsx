@@ -1,4 +1,3 @@
-
 const stats = [
     { value: "100%", label: "Контроль качества" },
     // { value: "7+", label: "Видов термопластов" },
@@ -40,7 +39,7 @@ export default function HeroSection() {
                 />
 
                 {/* Content */}
-                <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-14 sm:py-16 lg:py-20">
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-10 py-14 sm:py-16 lg:py-20">
 
                     <div className="max-w-2xl">
 
@@ -103,29 +102,28 @@ export default function HeroSection() {
 
             {/* COMPANY STATISTICS */}
 
-            <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+            <div className="max-w-7xl mx-auto px-3 sm:px-8 lg:px-10">
 
-                <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-200 py-7 sm:py-9">
+                <dl className="grid grid-cols-3 divide-x divide-slate-200 py-5 sm:py-9">
 
-                    {stats.map((stat, index) => (
+                    {stats.map((stat) => (
                         <div
                             key={stat.label}
-                            className={`px-4 text-center sm:px-7 py-2 ${index >= 2 ? "border-t border-slate-200 lg:border-t-0" : ""
-                                }`}
+                            className="flex min-w-0 flex-col items-center justify-start px-2 text-center sm:px-7 py-1"
                         >
 
-                            <div className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+                            <dd className="text-sm font-bold tracking-tight text-slate-900 tabular-nums whitespace-nowrap xs:text-base sm:text-2xl">
                                 {stat.value}
-                            </div>
+                            </dd>
 
-                            <div className="mt-1 text-xs sm:text-sm font-medium text-slate-700 leading-snug">
+                            <dt className="mt-1 text-[10px] font-medium leading-tight text-slate-700 sm:text-sm sm:leading-snug break-words">
                                 {stat.label}
-                            </div>
+                            </dt>
 
                         </div>
                     ))}
 
-                </div>
+                </dl>
 
             </div>
 

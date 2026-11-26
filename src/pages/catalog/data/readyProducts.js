@@ -1,21 +1,27 @@
+// src/pages/catalog/data/... (например, readyProducts.js)
+import kolesoDlyaMebeliPlastikovoe from '../../../assets/products/kolesoDlyaMebeliPlastikovoe.webp';
+import kolesoDlyaPischevyhTelezhek from '../../../assets/products/kolesoDlyaPischevyhTelezhek.webp';
+import soedinitelnyyProfilDlyaPodokonnika from '../../../assets/products/soedinitelnyyProfilDlyaPodokonnika.webp';
+import ugolokDlyaMoskitnoySetki from '../../../assets/products/ugolokDlyaMoskitnoySetki.webp';
+import zaglushkaBokovayaDlyaPodokonnikov from '../../../assets/products/zaglushkaBokovayaDlyaPodokonnikov.webp';
 
 export const READY_PRODUCTS = [
-    {
-        id: 'furniture-guide',
-        title: 'Направляющая для мебельного производства',
-        description:
-            'Пластиковая направляющая для использования в мебельных конструкциях и механизмах.',
-        details:
-            'Изделие предназначено для применения в мебельном производстве. Точные параметры и варианты исполнения уточняются.',
-        characteristics: {
-            'Размеры': 'Уточняются',
-            'Длина': 'Уточняется',
-            'Материал': 'Уточняется',
-            'Вес': 'Уточняется',
-        },
-        inStock: true,
-        image: null,
-    },
+    // {
+    //     id: 'furniture-guide',
+    //     title: 'Направляющая для мебельного производства',
+    //     description:
+    //         'Пластиковая направляющая для использования в мебельных конструкциях и механизмах.',
+    //     details:
+    //         'Изделие предназначено для применения в мебельном производстве. Точные параметры и варианты исполнения уточняются.',
+    //     characteristics: {
+    //         'Размеры': 'Уточняются',
+    //         'Длина': 'Уточняется',
+    //         'Материал': 'Уточняется',
+    //         'Вес': 'Уточняется',
+    //     },
+    //     inStock: true,
+    //     image: furnitureGuideImg,
+    // },
     {
         id: 'mosquito-corners',
         title: 'Уголки крепления москитной сетки',
@@ -30,7 +36,7 @@ export const READY_PRODUCTS = [
             'Вес': 'Уточняется',
         },
         inStock: true,
-        image: null,
+        image: ugolokDlyaMoskitnoySetki,
     },
     {
         id: 'food-cart-wheel',
@@ -46,7 +52,7 @@ export const READY_PRODUCTS = [
             'Вес': 'Уточняется',
         },
         inStock: true,
-        image: null,
+        image: kolesoDlyaPischevyhTelezhek,
     },
     {
         id: 'windowsill-cap',
@@ -62,7 +68,7 @@ export const READY_PRODUCTS = [
             'Цвет': 'Уточняется',
         },
         inStock: true,
-        image: null,
+        image: zaglushkaBokovayaDlyaPodokonnikov,
     },
     {
         id: 'furniture-wheel',
@@ -78,7 +84,7 @@ export const READY_PRODUCTS = [
             'Вес': 'Уточняется',
         },
         inStock: true,
-        image: null,
+        image: kolesoDlyaMebeliPlastikovoe,
     },
     {
         id: 'windowsill-connector',
@@ -94,6 +100,6 @@ export const READY_PRODUCTS = [
             'Цвет': 'Уточняется',
         },
         inStock: true,
-        image: null,
+        image: soedinitelnyyProfilDlyaPodokonnika,
     },
 ];

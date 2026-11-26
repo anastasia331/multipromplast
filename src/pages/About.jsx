@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import proizvodstvoPlastikovykhIzdeliyMultipromplast from '../assets/proizvodstvoPlastikovykhIzdeliyMultipromplast.webp' 
+import proizvodstvoPlastikovykhIzdeliyMultipromplast from "../assets/proizvodstvoPlastikovykhIzdeliyMultipromplast.webp";
 import { ContactDialog } from "../pages/aboutUs/ContactDialog";
-
 
 const CONTAINER = "mx-auto w-full max-w-6xl px-5 sm:px-8";
 const SECTION_Y = "py-14 sm:py-18 lg:py-24";
@@ -70,7 +69,6 @@ function useInView({ immediate = false } = {}) {
 
             return () => cancelAnimationFrame(id);
         }
-
 
         if (immediate) {
             const id = requestAnimationFrame(() => setSeen(true));
@@ -214,10 +212,12 @@ export function About() {
                         className="absolute inset-0 -z-10 bg-gradient-to-t from-[#071426] via-[#071426]/40 to-transparent"
                     />
 
-                    <div className={`${CONTAINER} flex min-h-[520px] flex-col justify-end pb-8 pt-28 sm:min-h-[560px] sm:pb-10`}>
+                    <div
+                        className={`${CONTAINER} flex min-h-[420px] flex-col justify-between pb-7 pt-6 sm:min-h-[540px] sm:justify-end sm:pb-10 sm:pt-24`}
+                    >
                         <div className="max-w-2xl">
                             <Reveal immediate>
-                                <p className="mb-4 text-[13px] font-semibold tracking-wide text-orange-300">
+                                <p className="mb-2.5 text-[13px] font-semibold tracking-wide text-orange-300 sm:mb-4">
                                     О компании
                                 </p>
                             </Reveal>
@@ -226,16 +226,16 @@ export function About() {
                                     id="hero-title"
                                     className="text-balance text-3xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-4xl lg:text-[2.75rem]"
                                 >
-                                    Мультипромпласт — производство пластиковых изделий
+                                    МультиПромПласт - производство пластиковых изделий
                                 </h1>
                             </Reveal>
                             <Reveal immediate delay={200}>
-                                <p className="mt-5 max-w-xl text-[15px] leading-7 text-slate-200">
+                                <p className="mt-4 max-w-xl text-[15px] leading-7 text-slate-200 sm:mt-5">
                                     Производственная компания из Липецка. Выпускаем собственную продукцию
                                     и выполняем заказы по индивидуальным требованиям клиентов.
                                 </p>
                             </Reveal>
-                            <Reveal immediate delay={300} className="mt-7">
+                            <Reveal immediate delay={300} className="mt-6 sm:mt-7">
                                 <CtaButton onClick={openDialog}>Обсудить проект</CtaButton>
                             </Reveal>
                         </div>
@@ -244,12 +244,12 @@ export function About() {
                             immediate
                             delay={450}
                             as="dl"
-                            className="mt-12 grid grid-cols-2 border-t border-white/20 lg:grid-cols-4"
+                            className="mt-8 grid grid-cols-2 border-t border-white/20 sm:mt-12 lg:grid-cols-4"
                         >
                             {FACTS.map((fact, i) => (
                                 <div
                                     key={fact.label}
-                                    className={`flex flex-col-reverse justify-end py-4 pr-4 lg:px-5 lg:first:pl-0 ${i > 0 ? "lg:border-l lg:border-white/15" : ""
+                                    className={`flex flex-col-reverse justify-end py-3.5 pr-4 sm:py-4 lg:px-5 lg:first:pl-0 ${i > 0 ? "lg:border-l lg:border-white/15" : ""
                                         }`}
                                 >
                                     <dt className="mt-0.5 text-[13px] leading-5 text-slate-300">{fact.label}</dt>
@@ -264,7 +264,7 @@ export function About() {
                 <section aria-labelledby="about-title" className={`${CONTAINER} ${SECTION_Y}`}>
                     <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
                         <Reveal>
-                            <H2 id="about-title">Собственное производство, а значит — своя организация работы</H2>
+                            <H2 id="about-title">Собственное производство, а значит - своя организация работы</H2>
                             <p className="mt-5 max-w-lg text-lg leading-8 text-slate-700">
                                 Все основные процессы идут на наших мощностях. Мы сами планируем работу
                                 над заказом и учитываем требования каждого проекта.

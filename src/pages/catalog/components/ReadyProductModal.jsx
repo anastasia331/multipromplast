@@ -1,5 +1,5 @@
-
 import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function ReadyProductModal({ product, onClose }) {
     const closeButtonRef = useRef(null);
@@ -28,11 +28,11 @@ export default function ReadyProductModal({ product, onClose }) {
         };
     }, [product, onClose]);
 
-    if (!product) return null;
+    if (!product || typeof document === 'undefined') return null;
 
-    return (
+    return createPortal(
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/60 p-3 backdrop-blur-sm sm:p-6"
+            className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-slate-950/60 px-3 pb-6 pt-20 backdrop-blur-sm sm:items-center sm:px-6 sm:pt-24 lg:pt-28"
             onMouseDown={(event) => {
                 if (event.target === event.currentTarget) {
                     onClose();
@@ -69,12 +69,12 @@ export default function ReadyProductModal({ product, onClose }) {
                     </h2>
                 </div>
 
-                <div className="mt-6 flex aspect-[16/7] items-center justify-center overflow-hidden rounded-xl bg-slate-50">
+                <div className="mt-6 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-xl border border-slate-200/70 bg-slate-50 sm:aspect-[16/10]">
                     {product.image ? (
                         <img
                             src={product.image}
-                            alt={product.title}
-                            className="h-full w-full object-contain p-4"
+                            alt={product.imageAlt || product.title}
+                            className="h-full w-full object-contain p-1.5"
                         />
                     ) : (
                         <span className="text-sm text-slate-400">
@@ -121,14 +121,14 @@ export default function ReadyProductModal({ product, onClose }) {
                 <div className="mt-6">
                     <span
                         className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${product.inStock
-                                ? 'bg-emerald-50 text-emerald-700'
-                                : 'bg-slate-100 text-slate-600'
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : 'bg-slate-100 text-slate-600'
                             }`}
                     >
                         <span
                             className={`h-1.5 w-1.5 rounded-full ${product.inStock
-                                    ? 'bg-emerald-500'
-                                    : 'bg-slate-400'
+                                ? 'bg-emerald-500'
+                                : 'bg-slate-400'
                                 }`}
                         />
                         {product.inStock ? 'В наличии' : 'Нет в наличии'}
@@ -143,7 +143,7 @@ export default function ReadyProductModal({ product, onClose }) {
                     Закрыть
                 </button>
             </section>
-        </div>
+        </div>,
+        document.body
     );
 }
-
